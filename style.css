@@ -1,0 +1,21 @@
+.play-button {
+  padding: 35px 35px;
+  font-size: 50px;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  color: #fff;
+  background-color: #d32121;
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 9px #660b0b;
+  font-family: 'Righteous', cursive;
+}
+
+.play-button:hover {background-color: #bf0d0d}
+
+.play-button:active {
+  background-color: #bf0d0d;
+  box-shadow: 0 5px #660b0b;
+  transform: translateY(4px);
+}
