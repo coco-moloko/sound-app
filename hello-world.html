@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<html>
+	<head> 
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="Play a Sound (Buffered Audio) with Web Audio API Tutorial Demo"/>
+		<meta name="author" content="Obadiah Metivier"/>
+		<!--<link rel="stylesheet" href="style.css">-->
+
+		
+		<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+		<title>Play a Sound (Buffered Audio) with Web Audio API Tutorial Demo</title>		
+	</head>
+	<body>
+	<div class="wrapper">
+		<div id="header">
+			<h1>Play a Sound (Buffered Audio) with Web Audio API Tutorial Demo</h1>
+		</div>
+		<div id="content">
+			<h3>1. Click real button elements to trigger or stop the buffered sound.</h3>	
+				<button class="play-button">Play</button>
+				<button class="stop-button">Stop</button>
+
+
+			<p class="note"><span class="red">* </span><em>Keep in mind you need the latest version of Chrome or Safari or Firefox for this to work.</em></p>
+		</div>
+		<div class="push"></div>
+	</div>
+
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js" charset="utf-8"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/jquery-ui.min.js"></script>
+		<script>
+(function() {
+    // Declare local variables
+    var context, 
+        source, 
+        buffer,
+        url = '/sounds/rainyDay.mp3';
+
+    // Initialise the Audio Context the smart way
+    function init() {
+        context = new AudioContext();
+    }
+	
+    // Load the Sound with XMLHttpRequest
+    function start() {
+        // Note: this will load asynchronously
+        var request = new XMLHttpRequest();
+        request.open("GET", url, true);
+        request.responseType = "arraybuffer"; // Read as binary data
+
+        // Asynchronous callback
+        request.onload = function() {
+            var data = request.response;
+
+            audioRouting(data);
+        };
+
+        request.send();
+    }
+
+    // Tell the Source when to play
+    function playSound() {
+        source.start(context.currentTime); // play the source immediately
+    }
+	
+    // Tell the Source when to stop
+    function stop() {
+        source.stop(context.currentTime); // stop the source immediately
+    }
+
+    // Mouse Events for the play/stop buttons
+    document.querySelector('.play-button').addEventListener('click', start);
+    document.querySelector('.stop-button').addEventListener('click', stop);	
+
+    function audioRouting(data) {
+        source = context.createBufferSource(); // Create sound source
+		context.decodeAudioData(data, function(buffer){ // Create source buffer from raw binary
+        source.buffer = buffer; // Add buffered data to object
+        source.connect(context.destination); // Connect sound source to output
+        playSound(source); // Pass the object to the play function
+		});
+    }
+	
+    init();
+
+}());
+		</script>
+	<script type="text/javascript">
+
+//page tracking goes here
+		
+	</script>
+	</body>
+</html>
